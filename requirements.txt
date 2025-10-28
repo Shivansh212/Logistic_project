@@ -8,5 +8,6 @@ catboost
 dill
 Flask
 gunicorn
+dill
 
 -e .
