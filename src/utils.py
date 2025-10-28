@@ -7,6 +7,7 @@ from src.exception import customException
 
 from math import radians,sin,cos,atan2,sqrt
 from sklearn.metrics import r2_score, mean_absolute_error
+from sklearn.model_selection import GridSearchCV
 
 def Haversine_distance(lat1,long1,lat2,long2):
     R=6371
@@ -27,6 +28,57 @@ def get_part_of_day(hour):
         return 'Evening'
     else:
         return 'Night'
+    
+
+def evaluate_model(X_train, y_train, X_test, y_test, models, param_grid):
+    
+    try:
+        report = {}
+        best_models = {}  
+        logging.info("Starting model evaluation with GridSearchCV...")
+
+        for model_name, model in models.items():
+            logging.info(f"Tuning model: {model_name}")
+            
+            
+            model_params = param_grid.get(model_name, {})
+
+            
+            gs = GridSearchCV(
+                estimator=model,
+                param_grid=model_params,
+                cv=3,      
+                 
+                scoring='r2'
+            )
+
+            
+            gs.fit(X_train, y_train)
+
+            
+            best_model_from_grid = gs.best_estimator_
+            
+            # Store this best model
+            best_models[model_name] = best_model_from_grid
+            
+            # --- Now, evaluate this best model ---
+            y_test_pred = best_model_from_grid.predict(X_test)
+            test_model_r2 = r2_score(y_test, y_test_pred)
+            test_model_mae = mean_absolute_error(y_test, y_test_pred)
+            
+            
+            report[model_name] = {
+                'r2_score': test_model_r2,
+                'mae': test_model_mae,
+                'best_params': gs.best_params_  
+            }
+            
+            logging.info(f"Finished tuning {model_name}. Best R2: {test_model_r2:.4f}")
+
+        return report, best_models  
+        
+    except Exception as e:
+        raise customException(e)
     
 def save_object(file_path,obj):
     try:

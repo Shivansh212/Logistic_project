@@ -11,6 +11,9 @@ from src.utils import Haversine_distance,get_part_of_day
 from src.components.data_transformation import DataTransformation
 from src.components.data_transformation import DataTransformationConfig
 
+from src.components.model_trainer import ModelTrainer
+from src.components.model_trainer import ModelTrainerConfig
+
 @dataclass
 class DataIngestionConfig:
     raw_data_path: str = os.path.join('artifacts','data.csv')
@@ -92,14 +95,15 @@ class DataIngestion:
             logging.error(f"Error in data ingestion: {e}")
             raise customException(e)
         
-
 if __name__=="__main__":
     obj=DataIngestion()
     train_data,test_data = obj.initiate_data_ingestion()
 
-    data_transformation=DataTransformation()
-    data_transformation.initiate_data_transformation(train_data,test_data)
-        
+    data_transformation = DataTransformation()
+    train_arr,test_arr,_=data_transformation.initiate_data_transformation(train_data,test_data)
+
+    model_trainer=ModelTrainer()
+    print(model_trainer.initiate_model_training(train_arr,test_arr)) 
 
 
         
