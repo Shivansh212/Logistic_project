@@ -10,5 +10,6 @@ Flask
 gunicorn
 dill
 flask
+gunicorn
 
 -e .
