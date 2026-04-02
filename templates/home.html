@@ -148,43 +148,43 @@
                 </fieldset>
                 
                 <fieldset>
-                    <legend class="mt-4 mb-3">Time Features (Pre-Calculated)</legend>
+                    <legend class="mt-4 mb-3">Time Features</legend>
                     <div class="row g-3">
                         <div class="col-md-3 mb-3">
                             <label class="form-label">Order Year</label>
-                            <input class="form-control" type="number" name="Order_Year" value="2024" required />
+                            <input class="form-control" type="number" name="Order_Year" placeholder="e.g., 2024" required />
                         </div>
                         <div class="col-md-3 mb-3">
                             <label class="form-label">Order Month</label>
-                            <input class="form-control" type="number" name="Order_Month" value="10" required />
+                            <input class="form-control" type="number" name="Order_Month" placeholder="e.g., 10" required />
                         </div>
                         <div class="col-md-3 mb-3">
                             <label class="form-label">Order Day</label>
-                            <input class="form-control" type="number" name="Order_Day" value="30" required />
+                            <input class="form-control" type="number" name="Order_Day" placeholder="e.g., 30" required />
                         </div>
                         <div class="col-md-3 mb-3">
                             <label class="form-label">Day of Week</label>
-                            <select class="form-select" name="day_of_week">
+                            <select class="form-select" name="day_of_week" required>
                                 <option value="Monday">Monday</option>
                                 <option value="Tuesday">Tuesday</option>
                                 <option value="Wednesday">Wednesday</option>
                                 <option value="Thursday">Thursday</option>
                                 <option value="Friday">Friday</option>
-                                <option value.="Saturday">Saturday</option>
+                                <option value="Saturday">Saturday</option>
                                 <option value="Sunday">Sunday</option>
                             </select>
                         </div>
                         <div class="col-md-3 mb-3">
                             <label class="form-label">Order Hour (0-23)</label>
-                            <input class="form-control" type="number" name="Order_Hour" value="14" required />
+                            <input class="form-control" type="number" name="Order_Hour" placeholder="e.g., 14" required />
                         </div>
                         <div class="col-md-3 mb-3">
                             <label class="form-label">Order Minute</label>
-                            <input class="form-control" type="number" name="Order_Minute" value="30" required />
+                            <input class="form-control" type="number" name="Order_Minute" placeholder="e.g., 30" required />
                         </div>
                         <div class="col-md-3 mb-3">
                             <label class="form-label">Part of Day</label>
-                            <select class="form-select" name="part_of_day">
+                            <select class="form-select" name="part_of_day" required>
                                 <option value="Morning">Morning</option>
                                 <option value="Afternoon">Afternoon</option>
                                 <option value="Evening">Evening</option>
@@ -193,15 +193,15 @@
                         </div>
                         <div class="col-md-3 mb-3">
                             <label class="form-label">Pickup Hour (0-23)</label>
-                            <input class="form-control" type="number" name="Pickup_Hour" value="15" required />
+                            <input class="form-control" type="number" name="Pickup_Hour" placeholder="e.g., 15" required />
                         </div>
                         <div class="col-md-6 mb-3">
                             <label class="form-label">Pickup Minute</label>
-                            <input class="form-control" type="number" name="Pickup_Minute" value="5" required />
+                            <input class="form-control" type="number" name="Pickup_Minute" placeholder="e.g., 5" required />
                         </div>
                         <div class="col-md-6 mb-3">
                             <label class="form-label">Total Prep Time (hours)</label>
-                            <input class="form-control" type="number" name="Total_preparation_time" step="any" value="0.58" required />
+                            <input class="form-control" type="number" name="Total_preparation_time" step="any" placeholder="e.g., 0.58" required />
                         </div>
                     </div>
                 </fieldset>

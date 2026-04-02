@@ -91,7 +91,7 @@ class ModelTrainer:
                 X_train=X_train, y_train=y_train,
                 X_test=X_test, y_test=y_test,
                 models=models,
-                param_grid=params  # <-- You might have added this
+                param_grid=params 
             )
             
             # === 4. FIND THE WINNER ===

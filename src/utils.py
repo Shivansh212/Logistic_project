@@ -8,6 +8,7 @@ from src.exception import customException
 from math import radians,sin,cos,atan2,sqrt
 from sklearn.metrics import r2_score, mean_absolute_error
 from sklearn.model_selection import GridSearchCV
+from sklearn.base import clone
 
 def Haversine_distance(lat1,long1,lat2,long2):
     R=6371
@@ -43,26 +44,40 @@ def evaluate_model(X_train, y_train, X_test, y_test, models, param_grid):
             
             model_params = param_grid.get(model_name, {})
 
-            
-            gs = GridSearchCV(
-                estimator=model,
-                param_grid=model_params,
-                cv=3,      
-                 
-                scoring='r2'
-            )
+            # If there is no hyperparameter grid, GridSearchCV will fail (and it's unnecessary).
+            if not model_params:
+                estimator = clone(model)
 
-            
-            gs.fit(X_train, y_train)
+                # Some models (e.g., CatBoost) don't support sparse matrices.
+                if "catboost" in type(estimator).__name__.lower() and hasattr(X_train, "toarray"):
+                    X_train_fit = X_train.toarray()
+                    X_test_fit = X_test.toarray()
+                else:
+                    X_train_fit = X_train
+                    X_test_fit = X_test
 
-            
-            best_model_from_grid = gs.best_estimator_
+                estimator.fit(X_train_fit, y_train)
+                best_model_from_grid = estimator
+                gs = None
+            else:
+                gs = GridSearchCV(
+                    estimator=model,
+                    param_grid=model_params,
+                    cv=3,
+                    scoring='r2'
+                )
+
+                gs.fit(X_train, y_train)
+                best_model_from_grid = gs.best_estimator_
             
             # Store this best model
             best_models[model_name] = best_model_from_grid
             
             # --- Now, evaluate this best model ---
-            y_test_pred = best_model_from_grid.predict(X_test)
+            if "catboost" in type(best_model_from_grid).__name__.lower() and hasattr(X_test, "toarray"):
+                y_test_pred = best_model_from_grid.predict(X_test.toarray())
+            else:
+                y_test_pred = best_model_from_grid.predict(X_test)
             test_model_r2 = r2_score(y_test, y_test_pred)
             test_model_mae = mean_absolute_error(y_test, y_test_pred)
             
@@ -70,7 +85,7 @@ def evaluate_model(X_train, y_train, X_test, y_test, models, param_grid):
             report[model_name] = {
                 'r2_score': test_model_r2,
                 'mae': test_model_mae,
-                'best_params': gs.best_params_  
+                'best_params': gs.best_params_ if gs is not None else {}  
             }
             
             logging.info(f"Finished tuning {model_name}. Best R2: {test_model_r2:.4f}")
