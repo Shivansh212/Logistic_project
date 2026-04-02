@@ -2,7 +2,7 @@ pandas
 numpy
 seaborn
 matplotlib
-Scikit-learn
+Scikit-learn==1.7.2
 xgboost
 catboost
 dill
