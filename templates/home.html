@@ -72,7 +72,7 @@
                         </div>
                         <div class="col-md-6 mb-3">
                             <label class="form-label">Driver Rating</label>
-                            <input class="form-control" type="number" name="Agent_Rating" step="0.1" placeholder="Enter Driver's Rating" required />
+                            <input class="form-control" type="number" name="Agent_Rating" step="0.1" min="0" max="5" placeholder="Enter Driver's Rating" required onkeyup="if(this.value > 5) this.value = 5;" />
                         </div>
                         <div class="col-md-6 mb-3">
                             <label class="form-label">Weather</label>

@@ -1,21 +1,10 @@
-
-FROM python:3.11-slim
-
-
+FROM python:3.10-slim-buster
 WORKDIR /app
+COPY . /app
 
 
-COPY requirements.txt .
-RUN pip install --no-cache-dir -r requirements.txt
+RUN apt update-y && apt install awscli -y
 
+RUN pip install -r requirements.txt
+CMD ["python3", "application.py"]
 
-COPY . .
-
-
-ENV PORT=8000
-
-
-EXPOSE 8000
-
-
-CMD ["gunicorn", "--bind", "0.0.0.0:8000", "app:app"]
