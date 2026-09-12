@@ -8,7 +8,7 @@ The entire ML pipeline is built from scratch, including data ingestion, feature 
 
 ---
 
-## 🚀 Features
+##  Features
 
 * **Data Ingestion:** Reads the raw dataset (`amazon_delivery.csv`).
 * **Feature Engineering:**
